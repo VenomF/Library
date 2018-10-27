@@ -9,9 +9,10 @@ public class Account {
 	private String userName;
 	private int booksTaken;
 	
-	Account(int accNum, String userName){
+	public Account(int accNum, String userName){
 		this.accNum=accNum;
 		this.userName=userName;
+		accountLog.add(this);
 	}
 
 	public int getAccNum() {
@@ -38,6 +39,10 @@ public class Account {
 		this.booksTaken=booksTaken;
 	}
 	
+	public void setBooksTaken() {
+		this.booksTaken--;
+	}
+	
 	public static Account findUser(int accNum) {
 		for(int i=0; i<accountLog.size(); i++)
 			if(accountLog.get(i).accNum==accNum)
@@ -46,12 +51,19 @@ public class Account {
 		return null;
 	}
 	
-	public static boolean isRealAccount (int accNum) {
+	public static boolean isAccount (int accNum) {
 		if(findUser(accNum)!=null)
 			return true;
 		
 		else
 			return false;
 	}
+
+	@Override
+	public String toString() {
+		return "Account [accNum=" + accNum + ", " + (userName != null ? "userName=" + userName + ", " : "")
+				+ "booksTaken=" + booksTaken + "]";
+	}
+	
 
 }
