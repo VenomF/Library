@@ -44,19 +44,12 @@ public class Account {
 	}
 	
 	public static Account findUser(int accNum) {
+		
 		for(int i=0; i<accountLog.size(); i++)
 			if(accountLog.get(i).accNum==accNum)
 				return accountLog.get(i);
 		
 		return null;
-	}
-	
-	public static boolean isAccount (int accNum) {
-		if(findUser(accNum)!=null)
-			return true;
-		
-		else
-			return false;
 	}
 
 	@Override

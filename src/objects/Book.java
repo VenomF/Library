@@ -13,6 +13,10 @@ public class Book {
 		this.bookNum=bookNum;
 	}
 	
+	protected Book() {
+		
+	}
+	
 	public Book(int bookNum, String bookTitle) {
 		this.bookNum=bookNum;
 		this.bookTitle=bookTitle;
@@ -36,7 +40,12 @@ public class Book {
 		this.bookTitle = bookTitle;
 	}
 	
+	public boolean getStatus() {
+		return status;
+	}
+	
 	public static Book findBook(int bookNum) {
+		
 		for(int i=0; i<list.size(); i++)
 			if(list.get(i).bookNum==bookNum)
 				return list.get(i);
@@ -45,11 +54,14 @@ public class Book {
 	}
 	
 	public void takeBook(int bookNum, int accountNum) {
+		
 		Account user=Account.findUser(accountNum);
 		int booksBorrowed=user.getBooksTaken();
+		
 		if(this.status && booksBorrowed<3) {
 			this.status=false;
-			user.setBooksTaken(++booksBorrowed); 
+			booksBorrowed++;
+			user.setBooksTaken(booksBorrowed); 
 		}
 	}
 	

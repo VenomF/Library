@@ -1,7 +1,6 @@
 package test;
 
 import java.util.Scanner;
-
 import objects.Account;
 import objects.Book;
 
@@ -10,50 +9,66 @@ public class Menu {
 	static Scanner input=new Scanner(System.in);
 
 	public static void createAccount() {
+		
 		System.out.println("Unesite broj racuna.");
 		int accNumber=input.nextInt();
+		
+		if(accNumber>0) {
 		System.out.println("Unesite vase ime.");
 		String name=input.next();
-		if(accNumber>0) {
-			if(!Account.isAccount(accNumber)) {
+		
+			if(Account.findUser(accNumber)==null) {
 				Account user=new Account(accNumber, name);
-				user.toString();
+				System.out.println(user.toString());
 				System.out.println("Uspijesno ste kreirali racun");
 			}
+			else
+				System.out.println("Racun sa tim brojem vec postoji.");
 		}
 		else
 			System.out.println("Racun mora imati jedinstven pozitivan broj");
 	}
 
 	public static void createBook() {
+		
 		System.out.println("Unesite broj knjige.");
 		int bookNumber=input.nextInt();
+		
 		if(bookNumber>0) {
 			System.out.println("Unesite naslov");
 			String title=input.next();
 			if(Book.findBook(bookNumber)==null) {
 				Book book=new Book(bookNumber, title);
-				book.toString();
+				System.out.println(book.toString());
 				System.out.println("Uspijesno ste kreirali knjigu.");
 			}
+			else
+				System.out.println("Knjiga sa tim brojem vec postoji");
 		}
 		else
 			System.out.println("Knjiga mora imati jedinstven pozitivan broj.");
 	}
 
 	public static void takeBook() {
-		System.out.println("Unesite broj knjige koju zelite posuditi");
-		int book=input.nextInt();
-		System.out.println("Unesite broj vaseg racuna.");
-		int acc=input.nextInt();
 		try {
+			System.out.println("Unesite broj knjige koju zelite posuditi");
+			int book=input.nextInt();
 			Book wantedBook=Book.findBook(book);
-			if(Account.isAccount(acc)) {
-				wantedBook.takeBook(book, acc);
-				System.out.println("Podigli ste knjigu " + wantedBook.getBookTitle());
+
+			if(wantedBook.getStatus()) {
+				System.out.println("Unesite broj vaseg racuna.");
+				int acc=input.nextInt();
+
+				if(Account.findUser(acc)!=null) {
+					wantedBook.takeBook(book, acc);
+					System.out.println("Podigli ste knjigu " + wantedBook.getBookTitle());
+				}
+				else
+					System.out.println("Vas racun nije validan");
 			}
 			else
-				System.out.println("Vas racun nije validan");
+				System.out.println("Knjiga je vec podignuta.");
+
 		}catch(NullPointerException e) {
 			System.out.println("Knjiga koju ste trazili ne postoji.");
 		}
@@ -62,15 +77,21 @@ public class Menu {
 	public static void returnBook() {
 		System.out.println("Unesite broj vaseg racuna.");
 		int acc=input.nextInt();
-		System.out.println("Unesite knjigu koju zelite da vratite.");
-		int book=input.nextInt();
-		try {
-			Book bookReturn=Book.findBook(book);
-			bookReturn.returnBook(acc);
-			System.out.println("Vratili ste knjigu " + bookReturn.getBookTitle());
-		}catch(NullPointerException e) {
-			System.out.println("Greska...");
+
+		if(Account.findUser(acc)!=null) {
+			System.out.println("Unesite knjigu koju zelite da vratite.");
+			int book=input.nextInt();
+
+			try {
+				Book bookReturn=Book.findBook(book);
+				bookReturn.returnBook(acc);
+				System.out.println("Vratili ste knjigu " + bookReturn.getBookTitle());
+			}catch(NullPointerException e) {
+				System.out.println("Greska...");
+			}
 		}
+		else
+			System.out.println("Navedeni racun nije pronadjen.");
 	}
 
 	public static void details() {
@@ -78,7 +99,7 @@ public class Menu {
 		int accNum=input.nextInt();
 		try {
 			Account acc=Account.findUser(accNum);
-			acc.toString();
+			System.out.println(acc.toString());
 		}catch(NullPointerException e) {
 			System.out.println("Uneseni racun ne postoji.");
 		}
