@@ -30,7 +30,7 @@ public class Book {
 			this.bookTitle=bookTitle;
 			this.status=true;
 			list.add(this);
-			writer.println(bookNum);
+			writer.print(bookNum + " ");
 			writer.println(bookTitle);
 			writer.close();
 			
@@ -85,15 +85,12 @@ public class Book {
 		
 		public static void read() throws FileNotFoundException, IOException {
 			Scanner reader=new Scanner(file);
-			
-			while(reader.hasNextLine()) {
-				int bookNum=reader.nextInt();
-				String title=reader.nextLine();
-				Book book=new Book(bookNum, title);
+
+			while (reader.hasNext()) {
+				new Book(reader.nextInt(), reader.nextLine());
 			}
-			
+
 			reader.close();
-			
 		}
 
 		@Override

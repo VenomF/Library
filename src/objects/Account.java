@@ -20,7 +20,7 @@ public class Account {
 		this.userName=userName;
 		accountLog.add(this);
 		PrintWriter writer=new PrintWriter(file);
-		writer.println(accNum);
+		writer.print(accNum);
 		writer.println(userName);
 		writer.close();
 	}
@@ -65,14 +65,11 @@ public class Account {
 	public static void read() throws FileNotFoundException, IOException {
 		Scanner reader=new Scanner(file);
 		
-		while(reader.hasNextLine()) {
-			int accNum=reader.nextInt();
-			String name=reader.nextLine();
-			Account acc=new Account(accNum, name);
+		while (reader.hasNext()) {
+			new Account(reader.nextInt(), reader.nextLine());
 		}
-		
 		reader.close();
-	}
+		}
 
 	@Override
 	public String toString() {
