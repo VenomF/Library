@@ -1,5 +1,6 @@
 package test;
 
+import java.io.IOException;
 import java.util.Scanner;
 import objects.Account;
 import objects.Book;
@@ -8,7 +9,7 @@ public class Menu {
 	
 	static Scanner input=new Scanner(System.in);
 
-	public static void createAccount() {
+	public static void createAccount() throws IOException {
 		
 		System.out.println("Unesite broj racuna.");
 		int accNumber=input.nextInt();
@@ -29,7 +30,7 @@ public class Menu {
 			System.out.println("Racun mora imati jedinstven pozitivan broj");
 	}
 
-	public static void createBook() {
+	public static void createBook() throws IOException {
 		
 		System.out.println("Unesite broj knjige.");
 		int bookNumber=input.nextInt();
@@ -105,7 +106,11 @@ public class Menu {
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+		
+		Account.read();
+		Book.read();
+		
 		int num=0;
 
 		while(num!=6) {

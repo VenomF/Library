@@ -1,6 +1,11 @@
 package objects;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Account {
 	
@@ -8,11 +13,16 @@ public class Account {
 	private int accNum;
 	private String userName;
 	private int booksTaken;
+	private static File file=new File("users.txt");
 	
-	public Account(int accNum, String userName){
+	public Account(int accNum, String userName) throws IOException {
 		this.accNum=accNum;
 		this.userName=userName;
 		accountLog.add(this);
+		PrintWriter writer=new PrintWriter(file);
+		writer.println(accNum);
+		writer.println(userName);
+		writer.close();
 	}
 
 	public int getAccNum() {
@@ -50,6 +60,18 @@ public class Account {
 				return accountLog.get(i);
 		
 		return null;
+	}
+	
+	public static void read() throws FileNotFoundException, IOException {
+		Scanner reader=new Scanner(file);
+		
+		while(reader.hasNextLine()) {
+			int accNum=reader.nextInt();
+			String name=reader.nextLine();
+			Account acc=new Account(accNum, name);
+		}
+		
+		reader.close();
 	}
 
 	@Override
