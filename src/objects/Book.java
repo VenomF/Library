@@ -24,16 +24,19 @@ public class Book {
 
 		}
 
-		public Book(int bookNum, String bookTitle) throws IOException {
-			PrintWriter writer=new PrintWriter(file);
+		public Book(int bookNum, String bookTitle) {
 			this.bookNum=bookNum;
 			this.bookTitle=bookTitle;
 			this.status=true;
 			list.add(this);
-			writer.print(bookNum + " ");
-			writer.println(bookTitle);
-			writer.close();
 			
+		}
+		
+		private Book(int bookNum, String title, boolean status) {
+			this.bookNum=bookNum;
+			this.bookTitle=title;
+			this.status=status;
+			list.add(this);
 		}
 
 		public int getBookNum() {
@@ -87,10 +90,21 @@ public class Book {
 			Scanner reader=new Scanner(file);
 
 			while (reader.hasNext()) {
-				new Book(reader.nextInt(), reader.nextLine());
+				new Book(reader.nextInt(), reader.next(), reader.nextBoolean());
 			}
 
 			reader.close();
+		}
+		
+		public static void write() throws FileNotFoundException {
+			PrintWriter write=new PrintWriter(file);
+			for(int i=0; i<list.size(); i++) {
+				write.print(list.get(i).bookNum + " ");
+				write.print(list.get(i).bookTitle + " ");
+				write.println(list.get(i).status);
+			}
+			
+			write.close();
 		}
 
 		@Override

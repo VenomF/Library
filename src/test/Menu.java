@@ -15,10 +15,11 @@ public class Menu {
 		int accNumber=input.nextInt();
 		
 		if(accNumber>0) {
-		System.out.println("Unesite vase ime.");
-		String name=input.next();
-		
 			if(Account.findUser(accNumber)==null) {
+				System.out.println("Unesite vase ime.");
+				String name=input.next();
+
+
 				Account user=new Account(accNumber, name);
 				System.out.println(user.toString());
 				System.out.println("Uspijesno ste kreirali racun");
@@ -137,6 +138,9 @@ public class Menu {
 		}
 		
 		input.close();
+		Account.write();
+		Book.write();
+		System.out.println("END");
 
 	}
 

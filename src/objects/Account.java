@@ -15,14 +15,17 @@ public class Account {
 	private int booksTaken;
 	private static File file=new File("users.txt");
 	
-	public Account(int accNum, String userName) throws IOException {
+	public Account(int accNum, String userName) {
 		this.accNum=accNum;
 		this.userName=userName;
 		accountLog.add(this);
-		PrintWriter writer=new PrintWriter(file);
-		writer.print(accNum);
-		writer.println(userName);
-		writer.close();
+	}
+	
+	private Account(int accNum, int booksTaken, String userName) {
+		this.accNum=accNum;
+		this.userName=userName;
+		this.booksTaken=booksTaken;
+		accountLog.add(this);
 	}
 
 	public int getAccNum() {
@@ -66,10 +69,21 @@ public class Account {
 		Scanner reader=new Scanner(file);
 		
 		while (reader.hasNext()) {
-			new Account(reader.nextInt(), reader.nextLine());
+			new Account(reader.nextInt(), reader.nextInt(), reader.nextLine());
 		}
 		reader.close();
 		}
+	
+	public static void write() throws FileNotFoundException {
+		PrintWriter writer=new PrintWriter(file);
+		
+		for(int i=0; i<accountLog.size(); i++) {
+		writer.print(accountLog.get(i).accNum + " ");
+		writer.print(accountLog.get(i).booksTaken + " ");
+		writer.println(accountLog.get(i).userName);
+		}
+		writer.close();
+	}
 
 	@Override
 	public String toString() {
